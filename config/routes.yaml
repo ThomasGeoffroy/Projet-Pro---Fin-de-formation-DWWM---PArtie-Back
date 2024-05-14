@@ -1,0 +1,32 @@
+# config/routes.yaml
+api_login_check:
+    path: /api/login
+    methods: GET
+    
+app_logout:
+    path: /logout
+    methods: GET
+# redirecting the homepage
+
+homepage_redirect:
+    path: /
+    methods: GET
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        # this value can be an absolute path or an absolute URL
+        path: 'app_back_main_index'
+        permanent: true
+
+# homepage:
+#     path: localhost:8080/
+#     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+#     defaults:
+#         path: /
+#         permanent: true
+
+# connexion:
+#     path: localhost:8080/connexion
+#     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+#     defaults:
+#         path: /
+#         permanent: true

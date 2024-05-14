@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer une commande - Barbiche back-office{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-3 mb-3">
+        <h1>Modifier un commande</h1>
+
+        {{ form_start(form, {attr: {'novalidate': 'novalidate'}}) }}
+            {{ form_widget(form) }}
+            <button class="mt-2 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+        {{ form_end(form) }}
+
+        <a class="mt-2 btn btn-warning" href="{{ path('app_back_orders_list') }}">Retour</a>
+
+        <p class="mt-5">Récapitulatif des produits contenus dans la commande (non modifiable)</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for productOrder in order.productOrders %}
+                    <tr>
+                        {% if productOrder.product is null %}
+                            <td><em>*produit supprimé de la base de données*</em></td>
+                        {% else %}
+                        <td>{{productOrder.product.name}}</td>
+                        {% endif %}
+                        <td>{{productOrder.quantity}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+{% endblock %}

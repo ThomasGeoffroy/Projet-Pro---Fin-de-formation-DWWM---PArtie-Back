@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des sous-catégories - Barbiche back-office{% endblock %}
+
+{% block type_menu %}active{% endblock %}
+
+{% block body %}
+    <div class="px-4">
+        <div class="example-wrapper mt-3">
+            <h1>Liste des sous-catégories</h1>
+        </div>
+        <div>
+            <a class="my-2 btn btn-success" href="{{path("app_back_type_add")}}">Ajouter une sous-catégorie</a>
+        </div>
+    
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Créé à</th>
+                        <th>Modifié le</th>
+                        <th>Catégorie associée</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for type in types %}
+                        <tr>
+                            <td>{{type.id}}</td>
+                            <td>{{type.name}}</td>
+                            <td>{{type.createdAt|format_datetime(locale='fr')}}</td>
+                            {% if type.updatedAt is null %}
+                                <td>-</td>
+                            {% else %}
+                                <td>{{type.updatedAt|format_datetime(locale='fr')}}</td>
+                            {% endif %}
+                            <td>{{type.category}}</td>
+                            <td class="d-flex">
+                                <a class="btn btn-success" href="{{path('app_back_type_show', {'id': type.id} ) }}"><i class="bi bi-eye"></i></a>
+                                <a class="mx-1 btn btn-warning" href="{{path('app_back_type_edit', {'id': type.id} ) }}"><i class="bi bi-pencil"></i></a>
+                                <form method="post" action="{{path('app_back_type_delete', {'id': type.id} ) }}" onsubmit='return confirm("Voulez-vous vraiment supprimer la sous-catégorie {{type.name}}?");'>
+                                    <button class="btn btn-danger bi bi-trash"></button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

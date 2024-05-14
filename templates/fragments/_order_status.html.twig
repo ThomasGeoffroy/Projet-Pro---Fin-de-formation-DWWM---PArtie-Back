@@ -1,0 +1,13 @@
+{% if order.status is same as "1" or 1 %}
+    <td>Reçue</td>
+    {% elseif order.status is same as "2" or 2 %}
+    <td>Validée</td>
+    {% elseif order.status is same as "3" or 3 %}
+    <td>En cours de préparation</td>
+    {% elseif order.status is same as "4" or 4 %}
+    <td>Expédiée</td>
+    {% elseif order.status is same as "5" or 5 %}
+    <td>Livrée</td>
+    {% elseif order.status is same as "6" or 6 %}
+    <td>Annulée</td>
+{% endif %}

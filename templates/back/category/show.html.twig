@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voir une catégorie - Barbiche back-office{% endblock %}
+
+{% block body %}
+    <div class="container mt-3 mb-3">
+        <div class="example-wrapper mt-3">
+            <h1>Catégorie #{{category.id}}</h1>
+        </div>
+
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{category.id}}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{category.name}}</td>
+                </tr>
+                <tr>
+                    <th>slug</th>
+                    <td>{{category.slug}}</td>
+                </tr>
+                <tr>
+                    <th>image</th>
+                    <td>{{category.picture}}</td>
+                </tr>
+                <tr>
+                    <th>Créé le</th>
+                    <td>{{category.createdAt|format_datetime(locale='fr')}}</td>
+                </tr>
+                <tr>
+                    <th>Modifié le</th>
+                    {% if category.updatedAt is null %}
+                        <td>-</td>
+                    {% else %}
+                    <td>{{category.updatedAt|format_datetime(locale='fr')}}</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <a class="mt-2 btn btn-success" href="{{ path('app_back_category_edit', {'id': category.id}) }}">Modifier</a>
+        </div>
+
+        <div>
+            <a class="mt-2 btn btn-warning" href="{{ path('app_back_categories_list') }}">Retour</a>
+        </div>
+    </div>
+{% endblock %}

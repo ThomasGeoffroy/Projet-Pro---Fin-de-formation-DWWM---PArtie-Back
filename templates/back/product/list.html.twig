@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des produits - Barbiche back-office{% endblock %}
+
+{% block product_menu %}active{% endblock %}
+
+{% block body %}
+    <div class="px-4">
+        <div class="example-wrapper mt-3">
+            <h1>Liste des Produits</h1>
+        </div>
+        <div>
+            <a class="my-2 btn btn-success"href="{{path("app_back_product_add")}}">Ajouter un produit</a>
+        </div>
+
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Statut</th>
+                        <th>Prix</th>
+                        <th>Créé le</th>
+                        <th>Modifié le</th>
+                        <th>Sous-catégorie associée</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{product.id}}</td>
+                            <td>{{product.name}}</td>
+                            {% if product.status is same as true %}
+                                <td>actif</td>
+                            {% else %}
+                                <td>inactif</td>
+                            {% endif %}
+                            {# I set my price in a variable #}
+                            {% set floatPrice = product.price / 100 %}
+                            {# I display my price in my variable and format it #}
+                            <td>{{floatPrice|number_format(2, ',', ' ')}} €</td>
+                            <td>{{product.createdAt|format_datetime(locale='fr')}}</td>
+                            {% if product.updatedAt is null %}
+                                <td>-</td>
+                            {% else %}
+                                <td>{{product.updatedAt|format_datetime(locale='fr')}}</td>
+                            {% endif %}
+                            <td>{{product.type}}</td>
+                            <td class="d-flex">
+                                <a class="btn btn-success" href="{{ path('app_back_product_show', {'id': product.id}) }}"><i class="bi bi-eye"></i></a>
+                                <a class="mx-1 btn btn-warning" href="{{ path('app_back_product_edit', {'id': product.id}) }}"><i class="bi bi-pencil"></i></a>
+                                <form method="post" action="{{ path('app_back_product_delete', {'id': product.id}) }}" onsubmit='return confirm("Are you sure you want to delete this item {{product.name}}?");'>
+                                    <button class="btn btn-danger bi bi-trash"></button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

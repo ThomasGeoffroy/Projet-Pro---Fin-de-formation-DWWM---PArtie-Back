@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voir une commande - Barbiche back-office{% endblock %}
+
+{% block body %}
+    <div class="container mt-3 mb-3">
+        <div class="example-wrapper mt-3">
+            <h1>Commande # {{order.id}}</h1>
+        </div>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{order.id}}</td>
+                </tr>
+                <tr>
+                    <th>Utilisateur lié</th>
+                    <td>{{order.user.email}}</td>
+                </tr>
+                <tr>
+                    <th>Statut de la commande</th>
+                    {% include "fragments/_order_status.html.twig" %}
+                </tr>
+                <tr>
+                    <th>Créé le</th>
+                    <td>{{order.createdAt|format_datetime(locale='fr')}}</td>
+                </tr>
+                <tr>
+                    <th>Modifié le</th>
+                    {% if order.updatedAt is null %}
+                        <td>-</td>
+                    {% else %}
+                        <td>le {{order.updatedAt|format_datetime(locale='fr')}}</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+        <h3 class="mt-5">Produits contenus dans la commande:</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for productOrder in order.productOrders %}
+                    <tr>
+                    {% if productOrder.product is null %}
+                        <td><em>*produit supprimé de la base de données*</em></td>
+                    {% else %}
+                        <td>{{productOrder.product.name}}</td>
+                    {% endif %}
+                        <td>{{productOrder.quantity}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div>
+            <a class="mt-2 btn btn-success" href="{{path("app_back_order_edit", {'id': order.id})}}">Modifier</a>
+        </div>
+
+        <div>
+            <a class="mt-2 btn btn-warning" href="{{ path('app_back_orders_list') }}">Retour</a>
+        </div>
+    </div>
+{% endblock %}

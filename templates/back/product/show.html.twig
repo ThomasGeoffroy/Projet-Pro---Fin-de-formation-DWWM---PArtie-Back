@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voir un produit - Barbiche back-office{% endblock %}
+
+{% block body %}
+<div class="container mt-3 mb-3">
+    <div class="example-wrapper mt-3">
+            <h1>Produit #{{product.id}}</h1>
+        </div>
+
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{product.id}}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{product.name}}</td>
+                </tr>
+                <tr>
+                    <th>statut</th>
+                        {% if product.status is same as true %}
+                            <td>actif</td>
+                        {% else %}
+                            <td>inactif</td>
+                        {% endif %}
+                </tr>
+                <tr>
+                    <th>prix</th>
+                    {# I set my price in a variable #}
+                    {% set floatPrice = product.price / 100 %}
+                    {# I display my price in my variable and format it #}
+                    <td>{{floatPrice|number_format(2, ',', ' ')}} €</td>
+                </tr>
+                <tr>
+                    <th>Créé le</th>
+                    <td>{{product.createdAt|format_datetime(locale='fr')}}</td>
+                </tr>
+                <tr>
+                    <th>Modifié le</th>
+                    {% if product.updatedAt is null %}
+                        <td>-</td>
+                    {% else %}
+                        <td>{{product.updatedAt|format_datetime(locale='fr')}}</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <a class="mt-2 btn btn-success" href="{{ path('app_back_product_edit', {'id': product.id}) }}">Modifier</a>
+        </div>
+
+        <div>
+            <a class="mt-2 btn btn-warning" href="{{ path('app_back_products_list') }}">Retour</a>
+        </div>
+    </div>
+{% endblock %}

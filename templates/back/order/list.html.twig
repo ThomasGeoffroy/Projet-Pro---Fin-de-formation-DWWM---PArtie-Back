@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des commandes - Barbiche back-office{% endblock %}
+
+{% block orders_menu %}active{% endblock %}
+
+{% block body %}
+    <div class="px-4">
+        <div class="example-wrapper mt-3">
+            <h1>Liste des commandes</h1>
+        </div>
+        
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Utilisateur lié</th>
+                        <th>Statut</th>
+                        <th>Créé le</th>
+                        <th>Modifié le</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{order.id}}</td>
+                            <td>{{order.user.email}}</td>
+                            {% include "fragments/_order_status.html.twig" %}
+                            <td>le {{order.createdAt|format_datetime(locale='fr')}}</td>
+                            {% if order.updatedAt is null %}
+                                <td>-</td>
+                            {% else %}
+                                <td>le {{order.updatedAt|format_datetime(locale='fr')}}</td>
+                            {% endif %}
+                            <td class="d-flex">
+                                <a class="btn btn-success" href="{{path("app_back_order_show", {'id': order.id})}}"><i class="bi bi-eye"></i></a>
+                                <a class="mx-1 btn btn-warning" href="{{path("app_back_order_edit", {'id': order.id})}}"><i class="bi bi-pencil"></i></a>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

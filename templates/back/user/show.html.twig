@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voir un utilisateur - Barbiche back-office{% endblock %}
+
+{% block body %}
+    <div class="container mt-3 mb-3">
+        {% if user.roles.1 is defined %}
+            {% if is_granted("ROLE_ADMIN") %}
+                <h1>Utilisateur #{{user.id}}</h1>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{user.id}}</td>
+                        </tr>
+                        <tr>
+                            <th>email</th>
+                            <td>{{user.email}}</td>
+                        </tr>
+                        <tr>
+                            <th>statut</th>
+                            {% if user.status is same as true %}
+                                <td>actif</td>
+                            {% else %}
+                                <td>inactif</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>Créé le</th>
+                            <td>{{user.createdAt|format_datetime(locale='fr')}}</td>
+                        </tr>
+                        <tr>
+                            <th>Modifié le</th>
+                            {% if user.updatedAt is null %}
+                                <td>-</td>
+                            {% else %}
+                                <td>{{user.updatedAt|format_datetime(locale='fr')}}</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <a <a class="mt-2 btn btn-success" href="{{ path('app_back_user_edit', {'id': user.id}) }}">Modifier</a>
+                </div>
+                <div>
+                    <a class="mt-2 btn btn-warning" href="{{ path('app_back_users_list') }}">Retour</a>
+                </div>
+            {% else %}
+                <h2>Vous n'avez pas les droits pour voir les détails de cet utilisateur.</h2>
+                <div>
+                    <a class="mt-2 btn btn-warning" href="{{ path('app_back_users_list') }}">{{ button_label|default('Retour') }}</a>
+                </div>
+            {% endif %}
+        {% else %}
+            <h1>Utilisateur #{{user.id}}</h1>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{user.id}}</td>
+                    </tr>
+                    <tr>
+                        <th>email</th>
+                        <td>{{user.email}}</td>
+                    </tr>
+                    <tr>
+                        <th>statut</th>
+                        {% if user.status is same as true %}
+                            <td>actif</td>
+                        {% else %}
+                            <td>inactif</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th>Créé le</th>
+                        <td>{{user.createdAt|format_datetime(locale='fr')}}</td>
+                    </tr>
+                    <tr>
+                        <th>Modifié le</th>
+                        {% if user.updatedAt is null %}
+                            <td>-</td>
+                        {% else %}
+                            <td>{{user.updatedAt|format_datetime(locale='fr')}}</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <a class="mt-2 btn btn-warning" href="{{ path('app_back_users_list') }}">{{ button_label|default('Retour') }}</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

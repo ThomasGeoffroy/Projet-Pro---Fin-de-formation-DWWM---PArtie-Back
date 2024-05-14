@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voir une sous-catégorie - Barbiche back-office{% endblock %}
+
+{% block body %}
+    <div class="container mt-3 mb-3">
+        <h1>Sous-categorie #{{type.id}}</h1>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{type.id}}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{type.name}}</td>
+                </tr>
+                <tr>
+                    <th>slug</th>
+                    <td>{{type.slug}}</td>
+                </tr>
+                <tr>
+                    <th>Créé le</th>
+                    <td>{{type.createdAt|format_datetime(locale='fr')}}</td>
+                </tr>
+                <tr>
+                    <th>Modifié le</th>
+                    {% if type.updatedAt is null %}
+                        <td>-</td>
+                    {% else %}
+                        <td>{{type.updatedAt|format_datetime(locale='fr')}}</td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    
+        <div>
+            <a class="mt-2 btn btn-success" href="{{ path('app_back_type_edit', {'id': type.id}) }}">Modifier</a>
+        </div>
+        
+        <div class="mt-2">
+            <a class="mt-2 btn btn-warning" href="{{ path('app_back_types_list') }}">Retour</a>
+        </div>
+    </div>
+{% endblock %}

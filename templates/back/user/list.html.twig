@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs - Barbiche back-office{% endblock %}
+
+{% block user_menu %}active{% endblock %}
+
+{% block body %}
+    <div class="px-4">
+        <div class="example-wrapper mt-3">
+            <h1>Liste des utilisateurs</h1>
+        </div>
+        {% if is_granted("ROLE_ADMIN") %}
+            <div>
+                <a  class="my-2 btn btn-success" href="{{path("app_back_user_add")}}">Ajouter un utilisateur</a>
+            </div>
+        {% endif %}
+    
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Email</th>
+                        <th>Rôle</th>               
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                        {# we have several checks here. First, if the authenticated user is an admin #}
+                        {% if is_granted("ROLE_ADMIN") %}
+                        {# Then, since every user has the role "ROLE_USER" by default, the managers and admin have another role, so another key in the roles array.#}
+                        {# We check that first #}
+                            {% if user.roles.1 is defined %}
+                                <td>{{user.id}}</td>
+                                <td>{{user.email}}</td>
+                                <td>{{user.roles ? user.roles|json_encode : '' }}</td>
+                                {% if user.status is same as true %}
+                                    <td>actif</td>
+                                {% else %}
+                                    <td>inactif</td>
+                                {% endif %}
+                                
+                                <td class="d-flex">
+                                    <a class="btn btn-success" href="{{path('app_back_user_show', {'id': user.id} ) }}"><i class="bi bi-eye"></i></a>
+                                    <a class="mx-1 btn btn-warning" href="{{path('app_back_user_edit', {'id': user.id} ) }}"><i class="bi bi-pencil"></i></a>
+                                    <form method="post" action="{{path('app_back_user_delete', {'id': user.id} ) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer l\'utilisateur {{user.email}}?');">
+                                        <button class="btn btn-danger bi bi-trash"></button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                        {% endif %}
+                        {% if user.roles.1 is not defined %}
+                                <td>{{user.id}}</td>
+                                <td>{{user.email}}</td>
+                                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                                {% if user.status is same as true %}
+                                    <td>actif</td>
+                                {% else %}
+                                    <td>inactif</td>
+                                {% endif %}
+                                <td>
+                                    <a class="btn btn-success" href="{{path('app_back_user_show', {'id': user.id} ) }}"><i class="bi bi-eye"></i></a>
+                                </td>          
+                        {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

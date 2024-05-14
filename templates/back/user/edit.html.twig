@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer un utilisateur - Barbiche back-office{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-3 mb-3">
+        {% if user.roles.1 is defined %}
+            <h1>Modifier un utilisateur</h1>
+            
+            {{ form_start(form, {attr: {'novalidate': 'novalidate'}}) }}
+                {{ form_widget(form) }}
+                <button class="mt-2 btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+            {{ form_end(form) }}
+            <a class="mt-2 btn btn-warning" href="{{ path('app_back_users_list') }}">{{ button_label|default('Retour') }}</a>
+        {% else %}
+            <h2>Vous ne pouvez pas modifier cet utilisateur</h2>
+            <div class="container mt-3 mb-3">
+                <a class="mt-2 btn btn-warning" href="{{ path('app_back_users_list') }}">{{ button_label|default('Retour') }}</a>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
